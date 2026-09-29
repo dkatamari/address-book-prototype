@@ -18,8 +18,7 @@ function getSnapshot(): State {
     cache = {
       recipients: [],
       ready: true,
-      error:
-        'Saved data could not be loaded. Your existing storage has been left untouched.',
+      error: 'Your accounts could not be loaded. Please try again.',
     }
   }
   return cache

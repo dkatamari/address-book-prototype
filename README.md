@@ -1,7 +1,7 @@
-# Axiym address book prototype
+# Axiym address book and send prototype
 
 A standalone, light-themed address book for accounts used for deposits from
-and withdrawals to. Next.js / React / TypeScript,
+and withdrawals to, with a standalone dashboard and demo send flow. Next.js / React / TypeScript,
 Tailwind and UI primitives follow `payment-model-prototype`; typography, colours
 and the dashboard shell follow `axiym-dashboard-app`. The desktop sidebar is
 320 px wide with 16 px semibold navigation and 24 px icons. Content uses 48 px
@@ -19,7 +19,9 @@ npm run dev
 ```
 
 Open http://localhost:3002. No API, API key, login service or database is needed.
-Only Address book is enabled in the sidebar; the remaining navigation is visual.
+Dashboard and Address book are enabled in the sidebar. History, Settings and
+Sign Out remain visual. The address book remains at `/` and `/recipients/`;
+open Dashboard (`/dashboard/`) and choose Send to start the new flow (`/send/`).
 
 For a standalone static build:
 
@@ -271,3 +273,51 @@ Use **Enabled for** for the form legend, table column, filter and saved-account 
 label. The filter defaults to Enabled for: All. Choices remain Deposit, Withdraw/Send
 and Deposit & Withdraw/Send; existing `accountPurposes` data and internal helper
 names are unchanged.
+
+
+## Demo send flow
+
+The dashboard and Send screens follow the supplied references and the current
+`axiym-dashboard-app` SendView, WorkflowCard and WorkflowSummary patterns:
+Select Recipient → Transaction Details → Confirmation → Processing. Dashboard
+balances have USD and USDT tabs. Only active bank accounts enabled for Withdraw/Send
+are selectable; entries saved under an older playbook revision are excluded.
+Send does not support stablecoin wallet destinations. Own and external groups are searchable
+and filterable by currency, with bank country flags and party addresses.
+
+Both You send and Recipient gets can drive the calculation. Amounts use integer
+minor units and fixed illustrative rates in `src/app/send/lib/transfer.ts`.
+USD and USDT each use a 1 USD demo basis; this is not a market rate or an asset
+support claim. The fee is 3 source units, included in You send. The minimum is
+4 source units; Max uses the currently available demo balance. Target amounts
+round to currency precision (JPY/XOF zero decimals, others two); source-based
+rounding can affect a target-entered amount, shown explicitly at confirmation.
+
+Purpose labels use the Payment API 0.1.0 TransactionPurpose vocabulary copied
+from `axiym-partner-api-docs/openapi/payment-api/0.1.0.yaml`. This is separate from
+an address-book entry's Enabled for setting. Reference is optional, up to 140
+characters. Supporting PDFs use the existing local 5 MB upload validation and
+remain in memory for preview during the current flow; Send does not store them
+in IndexedDB.
+
+Quotes are valid for 15 minutes from when the calculated rate first appears in
+Transaction Details. The countdown continues through Confirmation and back
+navigation; editing reference, purpose or documents does not restart it. A new
+amount calculation or explicit refresh issues a new quote. Expiry blocks
+progression and submission until the user refreshes and reviews the quote. A
+confirmation rechecks the selected account and fixed available balance, then
+shows an acknowledgement without the Send heading or workflow step indicator.
+
+Send does not persist requests or supporting files, reserve balances, or display
+request history or ongoing progress. The acknowledgement exists only in component
+state and is discarded on navigation or reload. Old `axiym.send-demo.v1` data is
+ignored. Address-book accounts and their supporting documents keep their existing
+persistence. There are no API, OTP, live FX, provider, bank or blockchain calls.
+This is not full payment-data preparation: it does not resolve deferred transaction
+or provider requirements, create a canonical execution package or execute it.
+The source dashboard repository was read for reference and was not modified.
+
+The interface uses customer-facing language throughout: implementation details
+about demo data, local storage and playbooks stay in this documentation. Dashboard
+colours follow the dashboard app: black text, a purple active currency tab, neutral
+action cards and lime action icons.

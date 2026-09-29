@@ -83,7 +83,7 @@ export function RecipientForm({
       label: 'Wallet address',
       required: true,
       section: 'account',
-      hint: 'Use an address on the selected network. Format is checked locally; ownership and token support are not verified.',
+      hint: 'Enter the wallet address on the selected network.',
     },
     ...partyFields,
   ]

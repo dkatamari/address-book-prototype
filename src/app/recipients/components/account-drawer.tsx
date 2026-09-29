@@ -112,7 +112,7 @@ export function AccountDrawer({
       await downloadDocument(account.supportingDocument!)
       setError('')
     } catch {
-      setError('Unable to load the saved document in this browser.')
+      setError('Unable to open this document. Please try again.')
     }
   }
   return (

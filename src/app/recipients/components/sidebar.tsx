@@ -1,5 +1,6 @@
 'use client'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import {
   RiDashboardLine,
   RiGroupLine,
@@ -10,13 +11,16 @@ import {
 } from '@remixicon/react'
 export function Sidebar({
   onRecipients,
+  active = 'address-book',
   open,
   close,
 }: {
+  active?: 'address-book' | 'dashboard'
   onRecipients: () => void
   open: boolean
   close: () => void
 }) {
+  const router = useRouter()
   return (
     <>
       {open && (
@@ -54,13 +58,20 @@ export function Sidebar({
           </div>
         </div>
         <nav>
-          <button disabled>
+          <button
+            className={active === 'dashboard' ? 'nav-active' : undefined}
+            aria-current={active === 'dashboard' ? 'page' : undefined}
+            onClick={() => {
+              router.push('/dashboard')
+              close()
+            }}
+          >
             <RiDashboardLine />
             <span>Dashboard</span>
           </button>
           <button
-            className="nav-active"
-            aria-current="page"
+            className={active === 'address-book' ? 'nav-active' : undefined}
+            aria-current={active === 'address-book' ? 'page' : undefined}
             onClick={() => {
               onRecipients()
               close()

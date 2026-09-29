@@ -2084,3 +2084,547 @@ select:disabled {
     display: none;
   }
 }
+
+/* Dashboard and send follow the dashboard app's WorkflowCard proportions. */
+.send-content {
+  color: #000;
+}
+.balance-panel {
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 1px 4px #12142908;
+}
+.balance-tabs {
+  display: flex;
+  gap: 40px;
+  padding: 0 40px;
+  border-bottom: 1px solid #eee;
+}
+.balance-tabs button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 24px 0;
+  background: none;
+  border: 0;
+  font-weight: 600;
+}
+.balance-tabs button[aria-selected='true']::after {
+  content: '';
+  position: absolute;
+  height: 2px;
+  background: var(--purple);
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.balance-tabs img {
+  border-radius: 50%;
+}
+.balance-body {
+  position: relative;
+  overflow: hidden;
+  padding: 48px 40px 56px;
+  min-height: 340px;
+}
+.balance-copy {
+  position: relative;
+  z-index: 1;
+}
+.balance-label {
+  color: #000;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+.balance-amount {
+  font-size: clamp(30px, 3.5vw, 54px);
+  line-height: 1.3;
+  letter-spacing: -1.5px;
+  margin-top: 12px;
+}
+.balance-amount span {
+  font-weight: 400;
+}
+.send-launch {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  min-width: 225px;
+  padding: 22px 26px;
+  margin-top: 48px;
+  background: rgba(245, 245, 247, 0.5);
+  color: #000;
+  text-transform: uppercase;
+  border-radius: 10px;
+  font-weight: 600;
+}
+.send-launch > span {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--primary);
+}
+.send-launch:hover {
+  background: #f5f5f7;
+}
+.disabled-link {
+  pointer-events: none;
+  opacity: 0.5;
+}
+.send-page > .back-link {
+  margin-bottom: 40px;
+}
+.send-panel-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+.send-panel-heading h1 {
+  font-size: 24px;
+}
+.send-stepper {
+  max-width: 950px;
+  margin: 38px 0 48px;
+}
+.send-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 2.3fr) minmax(240px, 1fr);
+  gap: 48px;
+  align-items: start;
+}
+.send-fields,
+.send-sidebar {
+  display: grid;
+  gap: 36px;
+  min-width: 0;
+}
+.send-fields .form-actions {
+  margin-top: 0;
+}
+.send-field {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+}
+.send-field > label {
+  font-weight: 600;
+  font-size: 14px;
+}
+.send-field > input:not([type='file']),
+.send-field > .combobox-trigger {
+  width: 100%;
+  min-height: 52px;
+  border: 1px solid #dddde5;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 15px;
+  background: white;
+}
+.send-amount-control {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  border: 1px solid #dddde5;
+  border-radius: 8px;
+  padding: 16px 20px;
+  min-height: 68px;
+}
+.send-amount-control:focus-within {
+  outline: 2px solid var(--purple);
+  outline-offset: 2px;
+}
+.send-amount-control input {
+  width: 100%;
+  min-width: 0;
+  font-size: 24px;
+  outline: none;
+  background: none;
+  border: 0;
+}
+.send-amount-control > span {
+  color: #9999a6;
+  font-size: 18px;
+}
+.send-amount-control > button {
+  margin-left: auto;
+  background: none;
+  border: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #52641f;
+}
+.send-field-help {
+  color: #848491;
+  font-size: 12px;
+  margin-top: -2px;
+}
+.send-field-help strong {
+  color: #424352;
+  font-weight: 400;
+}
+.send-field-error {
+  color: #b33343;
+  font-size: 13px;
+}
+.send-summary-section h2 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+.send-side-card {
+  background: #fafafc;
+  padding: 28px;
+  border-radius: 8px;
+}
+.send-side-card h3 {
+  font-size: 17px;
+  font-weight: 600;
+  margin: 24px 0;
+  overflow-wrap: anywhere;
+}
+.send-side-card dl {
+  display: grid;
+  gap: 24px;
+}
+.send-side-card dt {
+  color: #9292a7;
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+.send-side-card dd {
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.send-account-mark {
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.send-review-amounts {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr 1.2fr;
+  gap: 22px;
+  padding: 36px 32px;
+  border-radius: 8px;
+  background: #222;
+  color: white;
+}
+.send-review-amounts span {
+  display: block;
+  color: #bdbdbd;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+.send-review-amounts strong {
+  font-size: 21px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.send-review-lines {
+  display: grid;
+  gap: 28px;
+  margin: 48px 0;
+}
+.send-review-lines > div {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+}
+.send-review-lines dt {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex: 1;
+  color: #777782;
+  font-size: 15px;
+}
+.send-review-lines dt::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #eeeef2;
+}
+.send-review-lines dd {
+  max-width: 60%;
+  text-align: right;
+  font-weight: 600;
+  font-size: 15px;
+  overflow-wrap: anywhere;
+}
+.send-file-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border: 1px solid #dddde5;
+  border-radius: 8px;
+  padding: 22px;
+  max-width: 100%;
+  text-align: left;
+  background: white;
+}
+.send-file-card > svg {
+  flex-shrink: 0;
+  color: #9292a7;
+}
+.send-file-card > span {
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+.send-file-card small {
+  display: block;
+  margin-top: 8px;
+  font-size: 12px;
+  color: #9292a7;
+}
+.send-quote-validity {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  color: #696b74;
+  font-size: 13px;
+  margin-top: 28px;
+}
+.send-quote-validity.expired {
+  color: #a76b10;
+}
+.send-selection-tools {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 620px;
+  margin-bottom: 48px;
+}
+.send-selection-tools .search {
+  flex: 1;
+  height: 44px;
+  width: auto;
+}
+.send-selection-tools > .combobox-trigger {
+  width: 155px;
+  min-height: 44px;
+}
+.send-account-group + .send-account-group {
+  margin-top: 42px;
+}
+.send-account-group h2 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 28px;
+}
+.send-table-heading,
+.send-account-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr) minmax(0, 1fr) 74px;
+  gap: 24px;
+  align-items: center;
+}
+.send-table-heading {
+  color: #9292a7;
+  font-size: 12px;
+  padding-bottom: 16px;
+}
+.send-table-heading > :first-child {
+  padding-left: 52px;
+}
+.send-account-row {
+  min-height: 112px;
+  border-top: 1px solid #f0f0f4;
+  padding: 24px 0;
+}
+.send-holder {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  min-width: 0;
+}
+.send-holder > div {
+  min-width: 0;
+}
+.send-holder strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 400;
+  overflow-wrap: anywhere;
+}
+.send-holder small,
+.send-account-cell small {
+  display: block;
+  color: #9292a7;
+  font-size: 12px;
+  margin-top: 9px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.send-account-cell {
+  min-width: 0;
+  font-size: 14px;
+}
+.send-account-cell > span {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.send-select {
+  background: white;
+  border: 1px solid #dddde5;
+  border-radius: 8px;
+  height: 34px;
+  padding: 0 14px;
+  font-size: 13px;
+  font-weight: 600;
+}
+.send-select:hover {
+  background: #f4f8e9;
+  border-color: #bbd286;
+}
+.send-select:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.send-processing {
+  text-align: center;
+  max-width: 620px;
+  margin: 60px auto;
+}
+.send-processing .account-saved-mark {
+  margin: 0 auto 28px;
+}
+.send-processing h1 {
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+.send-processing > p {
+  color: #777782;
+  font-size: 15px;
+  line-height: 1.7;
+}
+.send-processing dl {
+  margin: 30px auto;
+  max-width: 460px;
+  display: grid;
+  gap: 16px;
+}
+.send-processing dl > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  font-size: 14px;
+  text-align: left;
+}
+.send-processing dt {
+  color: #9292a7;
+}
+.send-processing dd {
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 1500px) {
+  .send-columns {
+    gap: 30px;
+    grid-template-columns: minmax(0, 2fr) minmax(230px, 1fr);
+  }
+  .send-review-amounts {
+    padding: 28px 24px;
+    gap: 16px;
+  }
+  .send-review-amounts strong {
+    font-size: 18px;
+  }
+  .send-table-heading,
+  .send-account-row {
+    gap: 16px;
+  }
+}
+@media (max-width: 850px) {
+  .send-columns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .send-sidebar {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+  .send-stepper {
+    max-width: none;
+    flex-wrap: wrap;
+    row-gap: 18px;
+  }
+  .send-stepper li {
+    flex: 0 0 calc(50% - 5px);
+  }
+  .send-stepper li:nth-child(2)::after {
+    display: none;
+  }
+  .send-table-heading {
+    display: none;
+  }
+  .send-account-row {
+    grid-template-columns: minmax(0, 1fr) 80px;
+  }
+  .send-holder {
+    grid-column: 1;
+  }
+  .send-select {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+  }
+  .send-account-cell {
+    grid-column: 1;
+    margin-left: 52px;
+  }
+  .send-account-cell:nth-child(3) {
+    display: none;
+  }
+  .balance-tabs {
+    padding: 0 24px;
+    gap: 30px;
+  }
+  .balance-body {
+    padding: 32px 24px;
+  }
+  .dashboard-transfers {
+    padding: 24px;
+  }
+}
+@media (max-width: 500px) {
+  .send-selection-tools {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .send-selection-tools > .combobox-trigger {
+    width: 100%;
+  }
+  .send-stepper strong {
+    font-size: 11px;
+    white-space: normal;
+  }
+  .send-review-amounts {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+  .send-panel-heading {
+    gap: 8px;
+  }
+  .send-amount-control {
+    padding: 14px;
+  }
+  .send-amount-control input {
+    font-size: 21px;
+  }
+  .send-page .document-dropzone {
+    padding: 20px 14px;
+    gap: 14px;
+  }
+  .balance-amount {
+    font-size: 30px;
+  }
+  .send-launch {
+    margin-top: 28px;
+  }
+}

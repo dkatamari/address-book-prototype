@@ -17,7 +17,7 @@ import { AccountSaved } from './components/account-saved'
 import { Modal } from './components/modal'
 import { AccountDrawer } from './components/account-drawer'
 import { useRecipients, writeRecipients } from './lib/use-recipients'
-import { countryName, destinations, snapshot, ruleRevision } from './lib/data'
+import { countryName, destinations, ruleRevision } from './lib/data'
 import { ACCOUNT, BANK, NAME } from './lib/requirements'
 import { submitForReview } from './lib/account-status'
 import { matchesPurpose, purposeFilters } from './lib/filters'
@@ -98,9 +98,7 @@ export function RecipientsClient() {
     } catch {
       if (file && draft.supportingDocument)
         void deleteDocument(draft.supportingDocument.id).catch(() => {})
-      setError(
-        'Unable to save in this browser. Check storage permissions or available space, then try again.',
-      )
+      setError('Unable to save this account. Please try again.')
     }
   }
   function remove() {
@@ -113,7 +111,7 @@ export function RecipientsClient() {
       setDetail(null)
       setMessage('Account deleted')
     } catch {
-      setError('Unable to delete from browser storage. Please try again.')
+      setError('Unable to delete this account. Please try again.')
     }
   }
   async function copy(value: string) {
@@ -294,17 +292,6 @@ export function RecipientsClient() {
                 <div className="loading-state">Loading your address book…</div>
               )}
             </div>
-            <footer className="page-footer">
-              <span>
-                <span className="local-dot" />
-                Stored in this browser · Demo entries are fictional
-              </span>
-              <span>
-                {tab === 'bank'
-                  ? `${destinations.length} countries · Playbooks v${snapshot.index.version}`
-                  : 'Wallet address format checks · No network connection'}
-              </span>
-            </footer>
           </>
         )}
       </main>
@@ -328,8 +315,8 @@ export function RecipientsClient() {
       {deleting && (
         <Modal title="Delete account?" close={() => setDeleting(null)}>
           <p className="delete-description">
-            Remove <strong>{deleting.values[NAME]}</strong> from this browser’s
-            address book? This cannot be undone.
+            Remove <strong>{deleting.values[NAME]}</strong> from your address
+            book? This cannot be undone.
           </p>
           <div className="modal-actions">
             <Button

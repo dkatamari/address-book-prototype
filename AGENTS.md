@@ -1,10 +1,12 @@
 # Address book prototype
 
-This is a standalone account address-book frontend for deposits and withdrawals. Keep it statically exportable;
+This is a standalone account address-book and demo send frontend for deposits and withdrawals. Keep it statically exportable;
 no API routes, backend dependencies, authentication services or server actions.
 Use a light theme: white panels on #F5F5F7, Alliance No.2 typography, #CEFD54
-primary buttons, purple navigation and focus indicators. Only Address book is
-interactive in the reference sidebar.
+primary buttons, purple navigation and focus indicators. Dashboard and Address book are interactive in the sidebar; History and Settings
+remain disabled. Send uses fixed illustrative balances/rates and a transient confirmation screen;
+do not persist transfers or their files, reserve balances, or show request history.
+It never moves funds or implies real approval.
 
 Keep recipient code under src/app/recipients and shared UI primitives under
 src/components/ui. Country requirements belong to the imported Internal

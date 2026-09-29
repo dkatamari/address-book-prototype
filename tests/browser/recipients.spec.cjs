@@ -23,7 +23,7 @@ test('bank account create, persist, filter, view and delete without an API', asy
   await page.goto('/')
   await expect(
     page.getByRole('button', { name: 'Dashboard', exact: true }),
-  ).toBeDisabled()
+  ).toBeEnabled()
   await expect(
     page.getByRole('button', { name: 'History', exact: true }),
   ).toBeDisabled()
