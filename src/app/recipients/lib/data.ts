@@ -19,7 +19,6 @@ export function emptyDraft(kind: Draft['kind'] = 'bank'): Draft {
   return {
     kind,
     relationship: 'own',
-    accountPurposes: [],
     country: '',
     currency: kind === 'bank' ? '' : 'USDT',
     network: 'Avalanche',

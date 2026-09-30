@@ -46,14 +46,7 @@ import {
   EMAIL,
   PHONE,
 } from '../lib/party-details'
-import {
-  accountPurposes,
-  purposeBadge,
-  purposeErrors,
-  fieldStep,
-  valuesForCountryChange,
-  stepErrors,
-} from '../lib/form-flow'
+import { fieldStep, valuesForCountryChange, stepErrors } from '../lib/form-flow'
 export function RecipientForm({
   defaultKind,
   cancel,
@@ -75,7 +68,6 @@ export function RecipientForm({
   const [errors, setErrors] = useState<Values>({})
   const heading = useRef<HTMLHeadingElement>(null)
   const bank = draft.kind === 'bank'
-  const purpose = purposeBadge(draft.accountPurposes)
   const result = bank ? resolve(snapshot, draft) : undefined
   const fields: FormField[] = result?.fields ?? [
     {
@@ -109,7 +101,6 @@ export function RecipientForm({
   const allErrors = () => ({
     ...(result?.errors ?? walletErrors(draft)),
     ...businessRelationshipErrors(draft),
-    ...purposeErrors(draft.accountPurposes),
   })
   const update = (path: string, value: string) => {
     setDraft((d) => ({ ...d, values: { ...d.values, [path]: value } }))
@@ -128,14 +119,10 @@ export function RecipientForm({
     })
   }
   function next() {
-    if (busy || (step === 0 && !purpose)) return
+    if (busy) return
     const issues = stepErrors(step, allErrors(), fields)
     if (Object.keys(issues).length) {
-      if (issues.accountPurposes) setStep(0)
-      else if (
-        step === 2 &&
-        Object.keys(stepErrors(1, issues, fields)).length > 0
-      )
+      if (step === 2 && Object.keys(stepErrors(1, issues, fields)).length > 0)
         setStep(1)
       setErrors(issues)
       return
@@ -148,13 +135,7 @@ export function RecipientForm({
     if (busy) return
     const issues = allErrors()
     if (Object.keys(issues).length) {
-      setStep(
-        issues.accountPurposes
-          ? 0
-          : Object.keys(stepErrors(1, issues, fields)).length
-            ? 1
-            : 2,
-      )
+      setStep(Object.keys(stepErrors(1, issues, fields)).length ? 1 : 2)
       setErrors(issues)
       return
     }
@@ -407,7 +388,6 @@ export function RecipientForm({
                         ...emptyDraft(kind),
                         relationship: d.relationship,
                         businessRelationship: d.businessRelationship,
-                        accountPurposes: d.accountPurposes,
                         accountReason: d.accountReason,
                         supportingDocument: d.supportingDocument,
                         values: Object.fromEntries(
@@ -432,39 +412,6 @@ export function RecipientForm({
                   </button>
                 ))}
               </div>
-              <fieldset className="account-purpose">
-                <legend>
-                  Enabled for <span className="required">*</span>
-                </legend>
-                <div className="purpose-options">
-                  {accountPurposes.map(({ value, label }) => (
-                    <label key={value}>
-                      <input
-                        type="checkbox"
-                        checked={
-                          draft.accountPurposes?.includes(value) ?? false
-                        }
-                        onChange={(event) => {
-                          setDraft((d) => ({
-                            ...d,
-                            accountPurposes: event.target.checked
-                              ? [...(d.accountPurposes ?? []), value]
-                              : (d.accountPurposes ?? []).filter(
-                                  (p) => p !== value,
-                                ),
-                          }))
-                          setErrors((e) => {
-                            const next = { ...e }
-                            delete next.accountPurposes
-                            return next
-                          })
-                        }}
-                      />
-                      <span>{label}</span>
-                    </label>
-                  ))}
-                </div>
-              </fieldset>
             </>
           )}
           {(step === 1 || step === 2) && (
@@ -481,7 +428,6 @@ export function RecipientForm({
                     ? 'Own account'
                     : 'External account'}
                 </span>
-                {purpose && <span>{purpose}</span>}
               </div>
               {step === 1 && draft.relationship === 'external' && (
                 <div className="form-grid">
@@ -750,11 +696,7 @@ export function RecipientForm({
                 <RiArrowLeftLine size={24} />
               </Button>
             )}
-            <Button
-              className="btn form-next"
-              type="submit"
-              disabled={busy || (step === 0 && !purpose)}
-            >
+            <Button className="btn form-next" type="submit" disabled={busy}>
               {busy && step === 3
                 ? 'Submitting…'
                 : step === 3

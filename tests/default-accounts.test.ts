@@ -61,7 +61,6 @@ test('seven defaults include two wallets, two own banks and three external banks
   for (const account of defaults) {
     assert.equal(account.demo, true)
     assert.equal(account.status, 'active')
-    assert.ok(account.accountPurposes?.length)
     assert.deepEqual(businessRelationshipErrors(account), {}, account.id)
     assert.deepEqual(
       account.kind === 'bank'

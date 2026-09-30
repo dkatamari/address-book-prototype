@@ -75,12 +75,6 @@ export function createDemoRecipients(snapshot: Snapshot): Recipient[] {
     const draft: Draft = {
       kind: 'bank',
       relationship,
-      accountPurposes:
-        relationship === 'own'
-          ? ['deposit', 'withdraw']
-          : id === 'demo-gh'
-            ? ['deposit']
-            : ['withdraw'],
       ...(relationship === 'external'
         ? { businessRelationship: id === 'demo-gh' ? 'CUSTOMER' : 'SUPPLIER' }
         : {}),
@@ -170,7 +164,6 @@ export function createDemoRecipients(snapshot: Snapshot): Recipient[] {
       kind: 'stablecoin',
       relationship: 'external',
       businessRelationship: 'SERVICE_PROVIDER',
-      accountPurposes: ['withdraw'],
       country: '',
       currency: 'USDT',
       network: 'Tron',
@@ -188,7 +181,6 @@ export function createDemoRecipients(snapshot: Snapshot): Recipient[] {
     },
     {
       id: 'demo-wallet',
-      accountPurposes: ['deposit', 'withdraw'],
       kind: 'stablecoin',
       relationship: 'own',
       country: '',

@@ -24,7 +24,6 @@ const draft: Draft = {
   kind: 'bank',
   relationship: 'external',
   businessRelationship: 'SUPPLIER',
-  accountPurposes: ['deposit', 'withdraw'],
   country: 'CN',
   currency: 'CNY',
   network: '',

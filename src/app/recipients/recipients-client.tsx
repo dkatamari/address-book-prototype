@@ -20,7 +20,6 @@ import { useRecipients, writeRecipients } from './lib/use-recipients'
 import { countryName, destinations, ruleRevision } from './lib/data'
 import { ACCOUNT, BANK, NAME } from './lib/requirements'
 import { submitForReview } from './lib/account-status'
-import { matchesPurpose, purposeFilters } from './lib/filters'
 import { storeDocument, deleteDocument } from './lib/documents'
 import type { Draft, Recipient } from './lib/types'
 export function RecipientsClient() {
@@ -29,7 +28,6 @@ export function RecipientsClient() {
   const [search, setSearch] = useState('')
   const [relationship, setRelationship] = useState('all')
   const [country, setCountry] = useState('all')
-  const [purpose, setPurpose] = useState('all')
   const [filterOpen, setFilterOpen] = useState(false)
   const [form, setForm] = useState<'new' | null>(null)
   const [saved, setSaved] = useState<Recipient | null>(null)
@@ -48,7 +46,6 @@ export function RecipientsClient() {
     (r) =>
       r.kind === tab &&
       (relationship === 'all' || r.relationship === relationship) &&
-      matchesPurpose(r.accountPurposes, purpose) &&
       (country === 'all' || tab === 'stablecoin' || r.country === country) &&
       [
         r.values[NAME],
@@ -63,9 +60,7 @@ export function RecipientsClient() {
         .includes(search.toLowerCase()),
   )
   const filterCount =
-    Number(relationship !== 'all') +
-    Number(country !== 'all' && tab === 'bank') +
-    Number(purpose !== 'all')
+    Number(relationship !== 'all') + Number(country !== 'all' && tab === 'bank')
   const add = () => {
     setError('')
     setForm('new')
@@ -91,7 +86,6 @@ export function RecipientsClient() {
       setTab(draft.kind)
       setCountry('all')
       setRelationship('all')
-      setPurpose('all')
       setSearch('')
       setMessage('')
       setError('')
@@ -254,20 +248,11 @@ export function RecipientsClient() {
                     />
                   </div>
                 )}
-                <div className="filter-control purpose-filter">
-                  <Combobox
-                    label="Filter enabled for"
-                    value={purpose}
-                    onValueChange={setPurpose}
-                    options={purposeFilters}
-                  />
-                </div>
                 <button
                   className="text-button"
                   onClick={() => {
                     setRelationship('all')
                     setCountry('all')
-                    setPurpose('all')
                     setSearch('')
                   }}
                 >

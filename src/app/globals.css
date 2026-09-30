@@ -389,7 +389,7 @@ small {
   display: grid;
   grid-template-columns:
     minmax(0, 1.15fr) minmax(0, 1fr) minmax(0, 0.95fr)
-    minmax(105px, 0.7fr) 154px;
+    154px;
   gap: 22px;
   align-items: center;
 }
@@ -514,11 +514,6 @@ small {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.purpose-cell {
-  min-width: 0;
-  font-size: 14px;
-  line-height: 1.5;
-}
 .row-actions {
   display: flex;
   align-items: center;
@@ -561,7 +556,7 @@ small {
 }
 .wallet-grid {
   grid-template-columns:
-    minmax(0, 0.9fr) minmax(0, 1.35fr) minmax(105px, 0.7fr)
+    minmax(0, 0.9fr) minmax(0, 1.35fr)
     154px;
 }
 .page-footer {
@@ -600,9 +595,6 @@ small {
   font-size: 12px;
   color: #77788a;
   min-width: 200px;
-}
-.filter-panel .purpose-filter {
-  min-width: 240px;
 }
 .text-button {
   border: 0;
@@ -928,39 +920,6 @@ select:disabled {
 .account-type-panel .type-cards {
   margin-bottom: 48px;
 }
-.account-purpose {
-  padding: 0;
-  margin: 0;
-  border: 0;
-  min-width: 0;
-}
-.account-purpose legend {
-  font-size: 14px;
-  font-weight: 500;
-  margin-bottom: 16px;
-}
-.purpose-options {
-  width: 50%;
-  background: #fcfcfe;
-  border: 1px solid #ececf1;
-  border-radius: 8px;
-  padding: 20px 16px;
-  display: grid;
-  gap: 14px;
-}
-.purpose-options label {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 14px;
-  cursor: pointer;
-}
-.purpose-options input {
-  width: 20px;
-  height: 20px;
-  margin: 0;
-  accent-color: #421ff5;
-}
 .form-actions.first-step-actions {
   justify-content: flex-start;
   border: 0;
@@ -973,9 +932,6 @@ select:disabled {
 @media (max-width: 767px) {
   .account-type-panel {
     min-height: auto;
-  }
-  .purpose-options {
-    width: 100%;
   }
 }
 .setup-fields {
@@ -1288,17 +1244,9 @@ select:disabled {
   .bank-cell small {
     display: none;
   }
-  .purpose-cell {
-    grid-column: 1;
-    grid-row: 4;
-    padding: 9px 0 0 52px;
-  }
-  .wallet-grid .purpose-cell {
-    grid-row: 3;
-  }
   .row-actions {
     grid-column: 2;
-    grid-row: 1 / 5;
+    grid-row: 1 / 4;
     gap: 6px;
   }
   .recipient-group > h2 {
@@ -1393,8 +1341,7 @@ select:disabled {
     column-gap: 12px;
   }
   .account-cell,
-  .bank-cell,
-  .purpose-cell {
+  .bank-cell {
     padding-left: 44px;
   }
   .form-panel {

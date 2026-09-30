@@ -14,7 +14,6 @@ const account: Recipient = {
   kind: 'bank',
   relationship: 'external',
   businessRelationship: 'SUPPLIER',
-  accountPurposes: ['deposit', 'withdraw'],
   country: 'IN',
   currency: 'INR',
   network: '',
@@ -43,7 +42,6 @@ test('saved bank details use the playbook code label and preserve saved data', (
   assert.equal(rows['Bank Address'], account.bankAddress)
   assert.equal(rows.Email, 'info@axiym.io')
   assert.equal(rows['Phone number'], '+65 12345678')
-  assert.equal(rows['Enabled for'], 'Deposit & Withdraw/Send')
   assert.equal(rows['Bank country'], 'India')
   assert.equal(rows.Relationship, 'Supplier')
   assert.equal(rows['Reason For Adding This Account'], account.accountReason)
@@ -59,7 +57,6 @@ test('wallet details retain contacts but omit bank-only metadata and own-account
         ...account,
         kind: 'stablecoin',
         relationship: 'own',
-        accountPurposes: undefined,
         network: 'Tron',
         currency: 'USDT',
         values: ownPartyValues,
@@ -68,7 +65,6 @@ test('wallet details retain contacts but omit bank-only metadata and own-account
     ).map(({ label, value }) => [label, value]),
   )
   assert.equal(rows.Ownership, 'Own account')
-  assert.equal(rows['Enabled for'], 'Not specified')
   assert.equal(rows['Phone number'], '+65 12345678')
   assert.equal(rows.Relationship, undefined)
   assert.equal(rows['Bank Address'], undefined)

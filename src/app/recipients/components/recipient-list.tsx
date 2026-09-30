@@ -15,7 +15,6 @@ import {
   snapshot,
 } from '../lib/data'
 import { accountStatus, accountStatusLabel } from '../lib/account-status'
-import { purposeBadge } from '../lib/form-flow'
 import { routingSummary } from '../lib/routing'
 export function RecipientList({
   items,
@@ -66,7 +65,6 @@ export function RecipientList({
                   : 'Wallet Address'}
               </span>
               {rows[0].kind === 'bank' && <span>Bank</span>}
-              <span>Enabled for</span>
             </div>
             {rows.map((r) => (
               <div
@@ -147,10 +145,6 @@ export function RecipientList({
                     </small>
                   </div>
                 )}
-                <div className="purpose-cell">
-                  <span className="sr-only">Enabled for: </span>
-                  {purposeBadge(r.accountPurposes) ?? 'Not specified'}
-                </div>
                 <div className="row-actions">
                   <span
                     className={`status ${accountStatus(r) === 'pending_review' ? 'pending-review' : r.playbookHash && r.playbookHash !== ruleRevision(r.country) ? 'needs-review' : ''}`}

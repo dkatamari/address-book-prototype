@@ -1,12 +1,9 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import {
-  stepErrors,
-  purposeSummary,
-  purposeErrors,
-} from '../src/app/recipients/lib/form-flow.ts'
+import { stepErrors } from '../src/app/recipients/lib/form-flow.ts'
 import {
   parseRecipients,
+  loadRecipients,
   serializeRecipients,
 } from '../src/app/recipients/lib/storage.ts'
 import type { FormField, Recipient } from '../src/app/recipients/lib/types.ts'
@@ -49,7 +46,7 @@ test('setup advances without destination or details, party step validates its ow
     {},
   )
 })
-test('account purposes survive storage and older records need no migration', () => {
+test('retired account settings are removed without losing saved account details', () => {
   const recipient: Recipient = {
     id: 'test',
     kind: 'bank',
@@ -57,52 +54,34 @@ test('account purposes survive storage and older records need no migration', () 
     country: 'HK',
     currency: 'HKD',
     network: '',
-    values: {},
+    values: { 'payment.creditor.party.name': 'Axi Labs AG' },
     createdAt: '',
     updatedAt: '',
   }
-  assert.deepEqual(parseRecipients(serializeRecipients([recipient])), [
-    recipient,
-  ])
-  const updated: Recipient = {
-    ...recipient,
-    accountPurposes: ['deposit', 'withdraw'],
-  }
-  assert.deepEqual(parseRecipients(serializeRecipients([updated])), [updated])
-  assert.equal(
-    purposeSummary(updated.accountPurposes),
-    'Deposit funds from · Withdraw/send funds to',
-  )
-  assert.equal(purposeSummary([]), 'Not specified')
-  assert.throws(() =>
-    parseRecipients(
-      JSON.stringify({
-        version: 1,
-        recipients: [{ ...recipient, accountPurposes: ['invalid'] }],
-      }),
-    ),
-  )
-})
-
-test('Account Type requires either purpose or both, without validating later steps', () => {
-  for (const purposes of [undefined, []]) {
-    const errors = purposeErrors(purposes)
-    assert.equal(errors.accountPurposes, 'Select at least one option to enable.')
-    assert.deepEqual(
-      stepErrors(
-        0,
-        { ...errors, country: 'Missing', businessRelationship: 'Missing' },
-        fields,
-      ),
-      errors,
-    )
-    assert.ok(stepErrors(2, errors, fields).accountPurposes)
-  }
-  for (const purposes of [
+  for (const accountPurposes of [
+    undefined,
+    [],
     ['deposit'],
     ['withdraw'],
     ['deposit', 'withdraw'],
-  ] as const) {
-    assert.deepEqual(purposeErrors([...purposes]), {})
+    ['invalid'],
+  ]) {
+    const old = { ...recipient, accountPurposes }
+    assert.deepEqual(
+      parseRecipients(JSON.stringify({ version: 1, recipients: [old] })),
+      [recipient],
+    )
+    assert.deepEqual(JSON.parse(serializeRecipients([old])).recipients, [
+      recipient,
+    ])
+    let stored = JSON.stringify({ version: 1, recipients: [old] })
+    const storage = {
+      getItem: () => stored,
+      setItem: (_key: string, value: string) => {
+        stored = value
+      },
+    }
+    assert.deepEqual(loadRecipients(storage, []), [recipient])
+    assert.deepEqual(JSON.parse(stored).recipients, [recipient])
   }
 })

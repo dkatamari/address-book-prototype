@@ -5,7 +5,6 @@ import { Button } from '@/components/ui/button'
 import type { Recipient } from '../lib/types'
 import { NAME, ACCOUNT } from '../lib/requirements'
 import { countryName } from '../lib/data'
-import { purposeBadge } from '../lib/form-flow'
 export function AccountSaved({
   account,
   back,
@@ -47,7 +46,6 @@ export function AccountSaved({
           <span className="account-saved-number">
             {account.values[ACCOUNT]}
           </span>
-          <span>{purposeBadge(account.accountPurposes)}</span>
         </div>
         <Button className="btn" onClick={back}>
           Back to address book

@@ -80,7 +80,6 @@ test('bank account create, persist, filter, view and delete without an API', asy
   await page
     .getByRole('button', { name: 'External Account', exact: true })
     .click()
-  await page.getByLabel('Withdraw/send funds to', { exact: true }).check()
   await page.getByRole('button', { name: 'Next', exact: true }).click()
   await page.getByLabel('Account Holder Name').fill('Test Harbour Ltd')
   await fillPartyDetails(page)
@@ -191,7 +190,6 @@ test('stablecoin creation and responsive navigation', async ({ page }) => {
   await page
     .getByRole('button', { name: 'External Account', exact: true })
     .click()
-  await page.getByLabel('Deposit funds from', { exact: true }).check()
   await page.getByRole('button', { name: 'Next', exact: true }).click()
   await page.getByLabel('Account Holder Name').fill('Test Wallet')
   await fillPartyDetails(page)

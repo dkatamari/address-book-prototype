@@ -17,27 +17,18 @@ const snapshot: Snapshot = JSON.parse(
   fs.readFileSync('src/data/playbooks/snapshot.json', 'utf8'),
 )
 const accounts = createDemoRecipients(snapshot)
-const ghana = {
-  ...accounts.find((r) => r.id === 'demo-gh')!,
-  accountPurposes: ['withdraw' as const],
-}
+const ghana = accounts.find((r) => r.id === 'demo-gh')!
 const now = Date.parse('2026-09-29T00:00:00Z')
 const quote = () => createQuote(ghana, 'USDT', 1000000, now, 'quote-1')
 
-test('send selection admits only active withdrawal-enabled bank accounts', () => {
+test('send selection admits only active bank accounts', () => {
   assert.equal(canSendTo(ghana), true)
-  assert.equal(
-    canSendTo({ ...ghana, accountPurposes: ['deposit', 'withdraw'] }),
-    true,
-  )
   for (const account of [
     { ...ghana, status: 'pending_review' as const },
-    { ...ghana, accountPurposes: ['deposit' as const] },
-    { ...ghana, accountPurposes: undefined },
     { ...ghana, kind: 'stablecoin' as const, network: 'Ethereum' },
   ])
     assert.equal(canSendTo(account), false)
-  assert.equal(accounts.filter(canSendTo).length, 4)
+  assert.equal(accounts.filter(canSendTo).length, 5)
 })
 test('wallets cannot be quoted or submitted, including a previously prepared wallet quote', () => {
   for (const wallet of accounts.filter(

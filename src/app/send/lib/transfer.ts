@@ -74,7 +74,6 @@ export const purposeName = (code: string) =>
 export function canSendTo(account: Recipient) {
   return (
     accountStatus(account) === 'active' &&
-    !!account.accountPurposes?.includes('withdraw') &&
     account.kind === 'bank' &&
     !!DEMO_RATES[account.currency]
   )
@@ -128,8 +127,7 @@ export function createQuote(
   now: number,
   id: string,
 ): Quote {
-  if (!canSendTo(account))
-    throw new Error('Choose an active bank account enabled for Withdraw/Send.')
+  if (!canSendTo(account)) throw new Error('Choose an active bank account.')
   return {
     id,
     recipientId: account.id,

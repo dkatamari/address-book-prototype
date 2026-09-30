@@ -73,7 +73,6 @@ export type FormField = {
   section: 'account' | 'party'
   fixed?: string
 }
-export type AccountPurpose = 'deposit' | 'withdraw'
 export type SupportingDocument = { id: string; name: string; size: number }
 export type Recipient = {
   status?: 'pending_review' | 'active'
@@ -81,7 +80,6 @@ export type Recipient = {
   bankAddress?: string
   accountReason?: string
   supportingDocument?: SupportingDocument
-  accountPurposes?: AccountPurpose[]
   id: string
   kind: 'bank' | 'stablecoin'
   relationship: 'own' | 'external'
@@ -99,7 +97,6 @@ export type Draft = Pick<
   | 'kind'
   | 'relationship'
   | 'businessRelationship'
-  | 'accountPurposes'
   | 'bankAddress'
   | 'accountReason'
   | 'supportingDocument'

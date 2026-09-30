@@ -2,7 +2,6 @@ import type { Recipient, Snapshot } from './types.ts'
 import { ACCOUNT, BANK, NAME, label, resolve } from './requirements.ts'
 import { displayFieldValue } from './identification.ts'
 import { businessRelationshipLabel } from './business-relationship.ts'
-import { purposeBadge } from './form-flow.ts'
 
 // Use current playbook labels, while displaying only the original saved values.
 export function accountDetailItems(
@@ -50,19 +49,11 @@ export function accountDetailItems(
       value: account.bankAddress,
     })
   }
-  items.push(
-    {
-      id: 'addressBook.ownership',
-      label: 'Ownership',
-      value:
-        account.relationship === 'own' ? 'Own account' : 'External account',
-    },
-    {
-      id: 'addressBook.accountPurposes',
-      label: 'Enabled for',
-      value: purposeBadge(account.accountPurposes) ?? 'Not specified',
-    },
-  )
+  items.push({
+    id: 'addressBook.ownership',
+    label: 'Ownership',
+    value: account.relationship === 'own' ? 'Own account' : 'External account',
+  })
   if (account.kind === 'bank')
     items.push({
       id: BANK + 'address.country',

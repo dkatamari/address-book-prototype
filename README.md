@@ -45,24 +45,17 @@ only serves files. Neither the development nor production app calls a backend.
   preferences disable these animations. Radix handles focus trapping, Escape,
   outside dismissal and scroll locking. Closing returns focus to the account row. Close with
   the back arrow, Close button, Escape or backdrop. The drawer shows saved
-  bank/wallet details, contacts, ownership, Enabled for and review status.
+  bank/wallet details, contacts, ownership and review status.
   Bank country appears once, separate from the party address; drawer rows use
   stable field identifiers rather than display labels as React keys. Wallets
   include an address-copy button and a QR code generated locally from the full
   saved address. Deleting an entry requires confirmation; there is no edit action.
 - Add flow: Account Type → Party Details → Account Details → Confirmation.
-  Party Details and Account Details badges show account type, ownership and the selected purpose:
-  Deposit, Withdraw/Send, or Deposit & Withdraw/Send. No purpose badge appears
-  when none is selected. The stablecoin asset is selected in Account Details
-  and is not shown as a Party Details badge.
-  The first step uses matching selectable cards for ownership and bank/wallet
-  type, followed by required account
-  purposes (deposit funds from and/or withdraw/send funds to). Purpose choices
-  persist with the account and appear in review/details; they are address-book
-  metadata, not payment instructions or country-playbook rules. Older records
-  without purposes remain readable; adding an account requires at least
-  one purpose before leaving Account Type. Next stays disabled until a purpose
-  is checked; this step does not show a validation error box. Either purpose or both can be selected. Country is the first selection in bank Account Details; account
+  Party Details and Account Details badges show account type and ownership.
+  The stablecoin asset is selected in Account Details and is not shown as a
+  Party Details badge. The first step uses matching selectable cards for
+  ownership and bank/wallet type. Next proceeds directly to Party Details.
+  Country is the first selection in bank Account Details; account
   fields appear after a supported country/currency is selected. Account Details
   uses a spacious two-column layout with account number/routing first and a
   full-width Bank Name and Bank Address, followed by SWIFT/BIC; mobile fields stack in one column. The flow uses
@@ -89,7 +82,7 @@ only serves files. Neither the development nor production app calls a backend.
 - When browser storage is missing or contains an empty list, seven fictional Active
   accounts are added and persisted: two stablecoin wallets (Avalanche and Tron),
   two own bank accounts, and three external bank accounts. Defaults include
-  addresses, contacts and Enabled for values. Own examples use Axi Labs AG and
+  addresses and contacts. Own examples use Axi Labs AG and
   its Swiss business profile, regardless of the bank location. Bank flags use
   the account’s bank country; the address underneath uses the party country.
   Previously saved bundled own examples are refreshed to this profile on load.
@@ -215,8 +208,8 @@ Axiym dashboard assets. All images and fonts are served locally.
 Use **Address book** for the collection and **account** for an entry, whether
 it is used for deposits from, withdrawals to, or both. Sender and recipient
 refer to payment roles, not the name of an address-book entry. Existing route,
-component and storage identifiers are retained for compatibility; the stored
-account-purpose selections and payment-model paths are unchanged.
+component and storage identifiers are retained for compatibility; payment-model
+paths are unchanged.
 
 Account Details uses neutral Country and Currency labels for accounts that can
 be used for deposits or withdrawals. Country/currency choices and routing-code
@@ -259,28 +252,17 @@ Storage errors keep the form open. Playbook changes retain a separate Review
 details warning for previously approved accounts.
 
 Address-book filters use unlabeled visible combo boxes with accessible names for
-ownership, country and account purpose. Deposit and Withdraw/Send each include
-accounts supporting both; Deposit & Withdraw/Send matches only accounts with both
-purposes. Enabled for: All includes older records with no purpose. Purpose filtering
-works for banks and wallets, contributes to the filter count and resets with Clear
-filters or after submitting an account.
-
-Both bank and stablecoin tables include an Enabled for column with Deposit,
-Withdraw/Send, or Deposit & Withdraw/Send. Older accounts without a purpose show
-Not specified. The column moves below account details on narrow screens.
-
-Use **Enabled for** for the form legend, table column, filter and saved-account detail
-label. The filter defaults to Enabled for: All. Choices remain Deposit, Withdraw/Send
-and Deposit & Withdraw/Send; existing `accountPurposes` data and internal helper
-names are unchanged.
-
+ownership and country. Filters contribute to the filter count and reset with
+Clear filters or after submitting an account. Older saved entries are migrated
+on load to remove the retired deposit/withdrawal setting while retaining their
+other account details.
 
 ## Demo send flow
 
 The dashboard and Send screens follow the supplied references and the current
 `axiym-dashboard-app` SendView, WorkflowCard and WorkflowSummary patterns:
 Select Recipient → Transaction Details → Confirmation → Processing. Dashboard
-balances have USD and USDT tabs. Only active bank accounts enabled for Withdraw/Send
+balances have USD and USDT tabs. Only active bank accounts
 are selectable; entries saved under an older playbook revision are excluded.
 Send does not support stablecoin wallet destinations. Own and external groups are searchable
 and filterable by currency, with bank country flags and party addresses.
@@ -294,8 +276,7 @@ round to currency precision (JPY/XOF zero decimals, others two); source-based
 rounding can affect a target-entered amount, shown explicitly at confirmation.
 
 Purpose labels use the Payment API 0.1.0 TransactionPurpose vocabulary copied
-from `axiym-partner-api-docs/openapi/payment-api/0.1.0.yaml`. This is separate from
-an address-book entry's Enabled for setting. Reference is optional, up to 140
+from `axiym-partner-api-docs/openapi/payment-api/0.1.0.yaml`. Reference is optional, up to 140
 characters. Supporting PDFs use the existing local 5 MB upload validation and
 remain in memory for preview during the current flow; Send does not store them
 in IndexedDB.

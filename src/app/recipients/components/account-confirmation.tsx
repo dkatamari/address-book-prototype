@@ -5,7 +5,6 @@ import { RiPencilLine, RiFilePdf2Line, RiDownload2Line } from '@remixicon/react'
 import type { Draft, FormField } from '../lib/types'
 import { confirmationDetails, type ConfirmationItem } from '../lib/confirmation'
 import { countryName, snapshot } from '../lib/data'
-import { purposeBadge } from '../lib/form-flow'
 import { downloadDocument, downloadFile } from '../lib/documents'
 
 function Details({ items }: { items: ConfirmationItem[] }) {
@@ -40,7 +39,6 @@ export function AccountConfirmation({
     .find((method) => method.id === 'BANK')
     ?.payoutCurrencies.find((entry) => entry.currency.code === draft.currency)
     ?.currency.name
-  const purpose = purposeBadge(draft.accountPurposes)
   const document = draft.supportingDocument
   function editButton(step: number, name: string) {
     return (
@@ -75,7 +73,6 @@ export function AccountConfirmation({
           <span>
             {draft.relationship === 'own' ? 'Own account' : 'External account'}
           </span>
-          {purpose && <span>{purpose}</span>}
         </div>
         {editButton(0, 'Account Type')}
       </div>

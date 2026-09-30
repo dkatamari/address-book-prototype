@@ -2,6 +2,12 @@ import { ownPartyValues, normalizeContactValues } from './party-details.ts'
 import { isBusinessRelationship } from './business-relationship.ts'
 import type { Recipient } from './types'
 export const STORAGE_KEY = 'axiym.address-book.v1'
+// Drop the retired setting when reading or rewriting older saved accounts.
+function withoutRetiredSettings(account: Recipient): Recipient {
+  const clean: Recipient & { accountPurposes?: unknown } = { ...account }
+  delete clean.accountPurposes
+  return clean
+}
 export function parseRecipients(raw: string): Recipient[] {
   const value = JSON.parse(raw)
   if (value.version !== 1 || !Array.isArray(value.recipients))
@@ -18,11 +24,6 @@ export function parseRecipients(raw: string): Recipient[] {
         !['pending_review', 'active'].includes(r.status)) ||
       (r.businessRelationship !== undefined &&
         !isBusinessRelationship(r.businessRelationship)) ||
-      (r.accountPurposes !== undefined &&
-        (!Array.isArray(r.accountPurposes) ||
-          !r.accountPurposes.every(
-            (p: unknown) => p === 'deposit' || p === 'withdraw',
-          ))) ||
       (r.bankAddress !== undefined && typeof r.bankAddress !== 'string') ||
       (r.accountReason !== undefined && typeof r.accountReason !== 'string') ||
       (r.supportingDocument !== undefined &&
@@ -43,8 +44,9 @@ export function parseRecipients(raw: string): Recipient[] {
       throw new Error('Saved account data is invalid.')
     ids.add(r.id)
   }
-  // Refresh bundled examples only; saved user entries retain their submitted data.
-  return value.recipients.map((r: Recipient) => {
+  // Migrate retired settings; only bundled examples get updated party or network data.
+  return value.recipients.map((stored: Recipient) => {
+    const r = withoutRetiredSettings(stored)
     if (r.demo !== true) return r
     let account = r
     if (
@@ -69,7 +71,10 @@ export function parseRecipients(raw: string): Recipient[] {
   })
 }
 export function serializeRecipients(recipients: Recipient[]) {
-  return JSON.stringify({ version: 1, recipients })
+  return JSON.stringify({
+    version: 1,
+    recipients: recipients.map(withoutRetiredSettings),
+  })
 }
 
 // Populate an empty address book on load, without modifying nonempty or invalid data.
@@ -80,7 +85,7 @@ export function loadRecipients(
   const raw = storage.getItem(STORAGE_KEY)
   const accounts = raw === null ? [] : parseRecipients(raw)
   if (accounts.length) {
-    // Persist fixture migrations without adding defaults to a nonempty address book.
+    // Persist migrations without adding defaults to a nonempty address book.
     if (
       JSON.stringify(JSON.parse(raw!).recipients) !== JSON.stringify(accounts)
     )
